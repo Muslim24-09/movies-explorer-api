@@ -1,21 +1,20 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-const rateLimit = require('express-rate-limit');
-
 const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 const NotFoundError = require('./errors/NotFoundError');
+const limiter = require('./middlewares/limiter');
+const { MONGO_URL } = require('./constants/constants');
 
-const MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb';
-const { PORT = 3000, NODE_ENV } = process.env;
+const { PORT = 3000 } = process.env;
 
 mongoose.set('strictQuery', false);
 
@@ -31,11 +30,6 @@ app.use(helmet());
 app.use(requestLogger);
 
 app.use(cors);
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: NODE_ENV === 'production' ? 10 : 1000,
-});
 
 app.use(limiter);
 

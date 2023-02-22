@@ -1,6 +1,6 @@
 const allowedCors = [
-  // 'https://mooslim-mesto.nomoredomainsclub.ru',
-  // 'http://mooslim-mesto.nomoredomainsclub.ru',
+  'https://mooslim-movies.nomoredomains.work',
+  'http://mooslim-movies.nomoredomains.work',
   'http://localhost:3000',
   'https://localhost:3000',
   'http://localhost:3001',
