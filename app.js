@@ -9,10 +9,10 @@ const { errors } = require('celebrate');
 
 const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const router = require('./routes/index');
-const NotFoundError = require('./errors/NotFoundError');
+const router = require('./routes');
 const limiter = require('./middlewares/limiter');
 const { MONGO_URL } = require('./constants/constants');
+const commonError = require('./middlewares/commonError');
 
 const { PORT = 3000 } = process.env;
 
@@ -35,19 +35,10 @@ app.use(limiter);
 
 app.use(router);
 
-app.use('*', (_, __, next) => next(new NotFoundError('Страница не найдена')));
-
 app.use(errorLogger);
 app.use(errors());
 
-app.use((err, _, res, next) => {
-  if (err.statusCode) {
-    res.status(err.statusCode).send({ message: err.message });
-  } else {
-    res.status(500).send({ message: `На сервере произошла ошибка: ${err.message}` });
-  }
-  next();
-});
+app.use(commonError);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

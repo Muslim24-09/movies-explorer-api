@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { errorMessages } = require('../constants/constants');
 
 const movieSchema = new mongoose.Schema({
   // страна создания фильма. Обязательное поле-строка.
@@ -33,7 +34,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (url) => validator.isURL(url),
-      message: 'Некорректный формат ссылки',
+      message: errorMessages.urlIncorrect,
     },
   },
   //  ссылка на трейлер фильма. Обязательное поле-строка. Запишите её URL-адресом.
@@ -42,7 +43,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (url) => validator.isURL(url),
-      message: 'Некорректный формат ссылки',
+      message: errorMessages.urlIncorrect,
     },
   },
   // миниатюрное изображение постера к фильму. Обязательное поле-строка. Запишите её URL-адресом.
@@ -51,7 +52,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (url) => validator.isURL(url),
-      message: 'Некорректный формат ссылки',
+      message: errorMessages.urlIncorrect,
     },
   },
   // _id пользователя, который сохранил фильм. Обязательное поле.
