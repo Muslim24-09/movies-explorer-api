@@ -6,15 +6,8 @@ const ForbiddenError = require('../errors/ForbiddenError');
 const { errorMessages } = require('../constants/constants');
 
 const getAllMovies = (req, res, next) => {
-  const listMovies = [];
-  Movie.find({})
-    .then((movie) => {
-      movie.forEach((item) => {
-        if (!item.owner.equals(req.user._id)) return;
-        listMovies.push(item);
-      });
-      res.status(200).send(listMovies);
-    })
+  Movie.find({ owner: req.user._id })
+    .then((movies) => res.status(200).send(movies))
     .catch((err) => next(err));
 };
 
