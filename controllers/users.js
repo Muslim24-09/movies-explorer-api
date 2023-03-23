@@ -11,7 +11,6 @@ const { errorMessages } = require('../constants/constants');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const createUser = (req, res, next) => {
-  console.log(1212, req.body);
   const {
     name,
     email,
