@@ -103,8 +103,12 @@ const updateUser = async (req, res, next) => {
 
 const signOut = (_, res) => {
   res
-    .clearCookie('jwt')
-    .clearCookie('loggedIn')
+    .clearCookie('jwt', {
+      path: '/',
+    })
+    .clearCookie('loggedIn', {
+      path: '/',
+    })
     .send({ message: errorMessages.logOutSuccess });
 };
 
