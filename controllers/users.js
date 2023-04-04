@@ -7,6 +7,7 @@ const ConflictError = require('../errors/ConflictError');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const { errorMessages } = require('../constants/constants');
+const { cookie } = require('express/lib/response');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -102,12 +103,8 @@ const updateUser = async (req, res, next) => {
 
 const signOut = (_, res) => {
   res
-    .clearCookie('jwt', {
-      path: '/',
-    })
-    .clearCookie('loggedIn', {
-      path: '/',
-    })
+    .clearCookie('jwt')
+    .clearCookie('loggedIn')
     .send({ message: errorMessages.logOutSuccess });
 };
 
